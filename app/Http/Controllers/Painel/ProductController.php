@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Painel;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Painel\ProductFormRequest;
 use App\Models\Painel\Product;
 
 class ProductController extends Controller {
@@ -34,7 +35,14 @@ class ProductController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create() {
-        //
+        
+      
+        
+        $tittle = 'Formulario de Cadastro';
+        
+        $categories = ['eletronicos','cozinha','banho'];
+        
+        return view('painel.products.create', compact('tittle','categories'));
     }
 
     /**
@@ -43,7 +51,36 @@ class ProductController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(ProductFormRequest $request) {
+        
+       //dd($request->all()); //request all pega todos os dados do form
+       //  dd($request->only(['name','number']));
+      //dd($request->except('number'));
+       // dd($request->input('name')); apenas o dado do inputtb
+       
+       
+        $dataForm = $request->all();
+        
+        
+        if(!isset($dataForm['active'])){
+            $dataForm['active'] = 0;
+        }
+        
+        // validação de dados
+        
+       // $this->validate($request, $this->product->rules);
+            
+        
+        
+        $insert = $this->product->create($dataForm);
+        
+        if ($insert)
+        {
+            return redirect()->route('produtos.index');
+        } else {
+        return redirect()->back() ;   
+        }        
+        
         //
     }
 

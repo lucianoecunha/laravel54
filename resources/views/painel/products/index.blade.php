@@ -1,13 +1,13 @@
 @extends('painel.template')
 @section('content')
 
-<div class="panel panel-default">
   <h1 class="title-pg">Listagem de Produtos do banco</h1>
+  
+  <a href="{{route('produtos.create')}}" class="btn btn-primary btn-add"> <span class="glyphicon glyphicon-plus">Cadastrar</span> </a>
+      
 
-  <div class="panel-heading">Panel heading</div>
-
-  <!-- Table -->
-  <table class="table">
+   <!-- Table -->
+  <table class="table table-striped">
       <tr>
           <th>Nome</th>
           <th>Description</th>
@@ -31,8 +31,4 @@
       <p>Não existem produtos cadastrados</p>
       @endforelse
   </table>
-</div>
-@endsection
-@push('scripts')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-@endpush
+   @endsection

@@ -1,8 +1,8 @@
-@extends('site.template.template')
+@extends('painel.template')
 @section('content')
 
 <div class="panel panel-default">
-  <h1>Listagem de Produtos do banco</h1>
+  <h1 class="title-pg">Listagem de Produtos do banco</h1>
 
   <div class="panel-heading">Panel heading</div>
 
@@ -11,11 +11,20 @@
       <tr>
           <th>Nome</th>
           <th>Description</th>
+          <th width="100px">Ações</th>
       </tr>
       @forelse($products as $product)
       <tr>
       <td>{{$product->name}}</td>
       <td>{{$product->description}}</td>
+      <td>
+          <a href=""class="edit actions">
+              <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+          <a href="" class="delete actions">
+                 <span class="glyphicon glyphicon-trash"></span>
+          </a>
+      </td>
       </tr>
       
       @empty

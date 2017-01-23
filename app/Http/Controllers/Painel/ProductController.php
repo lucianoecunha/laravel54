@@ -20,10 +20,12 @@ class ProductController extends Controller {
     }
 
     public function index() {
+        
+        $tittle = 'Listagem dos produtos';
 
         $products = $this->product->all();
         
-       return view('painel.products.index', compact('products'));
+       return view('painel.products.index', compact('products','tittle'));
     }
 
     /**

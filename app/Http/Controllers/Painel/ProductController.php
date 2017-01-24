@@ -101,7 +101,15 @@ class ProductController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        //
+       
+        $product = $this->product->find($id);
+        
+        $tittle = "Editar produto - $product->name";
+        
+        $categories = ['eletronicos','cozinha','banho'];
+        
+        
+        return view('painel.products.create', compact('tittle','categories', 'product'));
     }
 
     /**

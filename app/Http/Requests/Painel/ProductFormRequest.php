@@ -26,7 +26,7 @@ class ProductFormRequest extends FormRequest
         return [
         'name'    => 'required|min:3|max:100|',
         'number'  => 'required|numeric',
-        'categoria'  => 'min:3|max:1000',
+        //'categoria'  => 'min:3|max:1000',
         'image'  => 'required'
             //
         ];

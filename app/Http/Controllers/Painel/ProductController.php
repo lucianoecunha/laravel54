@@ -53,6 +53,8 @@ class ProductController extends Controller {
      */
     public function store(ProductFormRequest $request) {
         
+      //  dd($request);
+        
        //dd($request->all()); //request all pega todos os dados do form
        //  dd($request->only(['name','number']));
       //dd($request->except('number'));
@@ -119,8 +121,27 @@ class ProductController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(ProductFormRequest $request, $id) {
+        
+// recupera os dados do formulario
+        
+        $dataForm = $request->all();
+        // recupera o item
+        $product = $this->product->find($id);
+        // faz a verficacao do ativo
+        if(!isset($dataForm['active'])){
+            $dataForm['active'] = 0;
+        }
+        
+        $update = $product->update($dataForm);
+        
+        if($update)
+            return redirect()->route('produtos.index');
+        else 
+            return redirect()->route('produtos.edit',$id)
+                    ->with(['errors' => 'não foi possivel atualizar o item']);
+        
+        
     }
 
     /**

@@ -1,6 +1,12 @@
 @extends('painel.template');
 @section('content')
-<h1 class="title-pg">Cadastro de Produtos do banco</h1>
+<h1 class="title-pg">
+@if(isset($produto))    
+Editar produto
+@else 
+Cadastrar Produto
+@endif
+</h1>
 @if(isset($errors) && count($errors)>0)
 <div class="alert alert-danger">
     @foreach($errors->all() as $error)
@@ -10,39 +16,45 @@
 
 @endif
 
-<form class="form" method="post" action="{{route('produtos.store')}}">
-    <input type="hidden" name='_token' value="{{csrf_token()}}">
-    <div class="form-group">
-        <input type="text" name='name' placeholder="Nome: " class="form-control" value="{{$product->name or old('name')}}">
-    </div>
-    <div class="form-group">
-        <input type="text" name='number' placeholder="Numero: " class="form-control"value="{{$product->number or old('number')}}">
-    </div>
-    <div class="form-group">
-        <label>Ativo
-            <input type="checkbox" name='active' value ="1" {{@if(isset($product)) && $product->active == 1 checked @endif}} placeholder="Ativar: ">
-        </label>
-    </div>
-    <div class="form-group">
-        <input type="text" name='image' placeholder="Image: " class="form-control" value="{{$product->image or old('image')}}">
-    </div>
-    <div class="form-group">
-        <select name="categoria" class="form-control"value="{{$product->categoria or old('categoria')}}">
-            <option value="">Selecione a opção</option>
-            @foreach($categories as $category)
-            <option value="{{$category}}">{{$category}}</option>
-            @endforeach
-        </select>
-    </div>
+@if(isset($product))
 
-    <div class="form-group">
-        <textarea name="description" placeholder="Descrição: " class="form-control"value="{{$product->description or old('description')}}"></textarea>
-    </div>
-    <div class="form-group">
-        <button class="button btn-primary">Enviar</button>
-    </div>
+{!! Form::model($product,['route'=>['produtos.update',$product->id], 'class'=>'form','method'=>'put'])!!}
+
+@else    
+{!! Form::open(['route'=>'produtos.store', 'class'=>'form'])!!}
+@endif
 
 
+<div class="form-group">
+    {!!Form::text('name', null,['placeholder' => 'nome', 'class'=>'form-control']) !!}
+</div>
+<div class="form-group">
+    {!!Form::text('number', null,['placeholder' => 'numero', 'class'=>'form-control']) !!}
 
-</form>
+</div>
+<div class="form-group">
+    <label>Ativo
+        {!!Form::checkbox('active')!!}
+    </label>
+</div>
+<div class="form-group">
+    {!!Form::text('image', null,['placeholder' => 'image', 'class'=>'form-control']) !!}
+
+</div>
+<div class="form-group">
+    {!!Form::select('categoria', $categories , null,['placeholder' => 'selecione a opcao', 'class'=>'form-control'])!!}
+</div>
+
+<div class="form-group">
+    {!!Form::textarea('description', null,['placeholder' => 'description', 'class'=>'form-control']) !!}
+
+</div>
+<div class="form-group">
+
+    {!!Form::submit('Enviar',['class'=>'button btn-primary'])!!}
+</div>
+
+
+
+{!!Form::close()!!}
 @endsection

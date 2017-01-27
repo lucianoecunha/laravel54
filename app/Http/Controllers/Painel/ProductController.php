@@ -10,6 +10,9 @@ use App\Models\Painel\Product;
 class ProductController extends Controller {
 
     private $product;
+    
+    private $totalperpage = 3;
+    
 
     /**
      * Display a listing of the resource.
@@ -24,7 +27,8 @@ class ProductController extends Controller {
         
         $tittle = 'Listagem dos produtos';
 
-        $products = $this->product->all();
+        //$products = $this->product->all();
+        $products = $this->product->paginate($this->totalperpage);
         
        return view('painel.products.index', compact('products','tittle'));
     }
@@ -93,7 +97,13 @@ class ProductController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show($id) {
-        //
+        $product = $this->product->find($id);
+        
+        $titlle = "Exibe produdo: $product->name";
+        
+        
+        return view('painel.products.show', compact('product', 'tittle'));
+        
     }
 
     /**
@@ -151,7 +161,17 @@ class ProductController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function destroy($id) {
-        //
+        
+        $product = $this->product->find($id);
+        
+        $delete = $product->delete();
+        
+        if($delete)
+            return redirect()->route('produtos.index');
+        else
+             return redirect()->route('produtos.edit',$id)
+                    ->with(['errors' => 'não foi possivel deletar o item']);
+        
     }
     
     public function testes(){
